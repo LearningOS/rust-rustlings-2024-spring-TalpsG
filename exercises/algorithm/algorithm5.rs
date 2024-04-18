@@ -3,9 +3,7 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
-use std::collections::VecDeque;
-
+use std::collections::{VecDeque,HashSet};
 // Define a graph
 struct Graph {
     adj: Vec<Vec<usize>>, 
@@ -30,8 +28,26 @@ impl Graph {
         
 		//TODO
 
+        let mut que = VecDeque::new();
         let mut visit_order = vec![];
+        let mut hm = HashSet::new();
+        que.push_back(start);
+        loop {
+            if que.is_empty() {
+                break;
+            }
+            let node = que.pop_front().unwrap();
+            hm.insert(node);
+            visit_order.push(node);
+            for i in &self.adj[node] {
+                if !hm.contains(i) {
+                    hm.insert(*i);
+                    que.push_back(*i);
+                }
+            }
+        }
         visit_order
+
     }
 }
 
